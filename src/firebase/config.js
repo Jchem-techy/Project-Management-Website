@@ -19,13 +19,16 @@ const firebaseConfig = {
 };
 // initialize services
 const app = initializeApp(firebaseConfig);
-const projectStorage = getStorage(app);
+const storage = getStorage(app);
 
 const db = getFirestore(app); // firestore
 // collection refrence
 let colRef = collection(db, 'transactions');
+
 const auth = getAuth(); // auth
+
+//storage refrence
 
 // firebase timestamps
 const timestamp = Timestamp.fromDate(new Date());
-export { db, auth, colRef, timestamp, projectStorage };
+export { db, auth, colRef, timestamp, storage };

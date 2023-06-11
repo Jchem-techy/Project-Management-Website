@@ -1,12 +1,12 @@
 //  react imports
 import React from 'react';
 import { useState, useEffect } from 'react';
-
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 // hooks imports
 import { useAuthContext } from './useAuthContext.js';
 
 // firebase auth imports
-import { auth } from '../firebase/config';
+import { auth, storageRef, storage } from '../firebase/config';
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -20,7 +20,7 @@ export default function useSignup() {
   // this update the to be use in the authContext.js
   const { dispatch } = useAuthContext();
 
-  const signup = async (email, password, displayName) => {
+  const signup = async (email, password, displayName, thumbnail) => {
     // await user.user.updateProfile({displayName})
     setError(null);
     setIsPending(true);
@@ -35,8 +35,19 @@ export default function useSignup() {
       if (!userCredentials) {
         throw new Error('Could not complete signup');
       }
-      //adding display name(user name) to the user
-      await updateProfile(auth.currentUser, { displayName: displayName });
+
+      //upload user thumbnail
+      const uplodadPath = `thumbnail/${user.uid}/${thumbnail.name}`;
+      // file upload path
+      const storageRef = ref(storage, uplodadPath);
+      // upload byte resumable helps to pause and resume
+      const img = await uploadBytesResumable(storageRef, thumbnail);
+      const imgUrl = await getDownloadURL(ref(storage, uplodadPath));
+      console.log(imgUrl);
+      await updateProfile(auth.currentUser, {
+        displayName: displayName,
+        photoURL: imgUrl,
+      });
       // dispatching the login event
       dispatch({ type: 'LOGIN', payload: user });
       setIsPending(false);
