@@ -7,12 +7,12 @@ import { getFirestore, collection, Timestamp } from 'firebase/firestore';
 // Authentication packages
 import { getAuth } from 'firebase/auth';
 const firebaseConfig = {
-  apiKey: 'AIzaSyD-w9HvhajEwroqc6GGyC4HIXqGMuIM8BQ',
-  authDomain: 'mymoney-fa770.firebaseapp.com',
-  projectId: 'mymoney-fa770',
-  storageBucket: 'mymoney-fa770.appspot.com',
-  messagingSenderId: '79079327750',
-  appId: '1:79079327750:web:9de714c9dc81a80ea65b87',
+  apiKey: 'AIzaSyB3D9715fL3frCHYAfeRDWYln-5wY54Qzo',
+  authDomain: 'project-management-259e2.firebaseapp.com',
+  projectId: 'project-management-259e2',
+  storageBucket: 'project-management-259e2.appspot.com',
+  messagingSenderId: '576951246199',
+  appId: '1:576951246199:web:60eb6ed713b939ca2cd572',
 };
 const app = initializeApp(firebaseConfig);
 // initialize services
