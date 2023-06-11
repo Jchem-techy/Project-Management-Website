@@ -10,10 +10,38 @@ export default function Signup() {
   const [password, setPassword] = useState('');
   const [displayName, setDisplayName] = useState('');
   const [thumbnail, setThumbnail] = useState(null);
+  const [thumbnailError, setThumbnailError] = useState(null);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    console.log(email, password, displayName, thumbnail);
+  }
+
+  function handleFileChange(e) {
+    setThumbnail(null);
+    let selected = e.target.files[0];
+    console.log(selected);
+    if (!selected) {
+      setThumbnailError('please select a file');
+      return;
+    }
+    if (!selected.type.includes('image')) {
+      setThumbnailError('selected files must be an image');
+      return;
+    }
+    if (selected.size > 100000) {
+      setThumbnailError('image file size must be less than 100kb');
+      return;
+    }
+    setThumbnailError(null);
+    setThumbnail(selected);
+    console.log(`thumbnail updated`);
+  }
+
   return (
-    <form className='auth-form'>
+    <form className='auth-form' onSubmit={handleSubmit}>
       <h2>signup</h2>
-      <label htmlFor=''>
+      <label>
         <span>email:</span>
         <input
           type='email'
@@ -22,7 +50,7 @@ export default function Signup() {
           onChange={(e) => setEmail(e.target.value)}
         />
       </label>
-      <label htmlFor=''>
+      <label>
         <span>password:</span>
         <input
           type='password'
@@ -31,7 +59,7 @@ export default function Signup() {
           onChange={(e) => setPassword(e.target.value)}
         />
       </label>
-      <label htmlFor=''>
+      <label>
         <span>display name:</span>
         <input
           type='text'
@@ -40,14 +68,10 @@ export default function Signup() {
           onChange={(e) => setDisplayName(e.target.value)}
         />
       </label>
-      <label htmlFor=''>
+      <label>
         <span>profile thumbnail:</span>
-        <input
-          type='file'
-          required
-          value={thumbnail}
-          onChange={(e) => setThumbnail(e.target.value)}
-        />
+        <input type='file' required onChange={handleFileChange} />
+        {thumbnailError && <div className='error'>{thumbnailError}</div>}
       </label>
       <button type='submit' className='btn'>
         sign up

@@ -6,6 +6,9 @@ import { getFirestore, collection, Timestamp } from 'firebase/firestore';
 
 // Authentication packages
 import { getAuth } from 'firebase/auth';
+
+// firebase storage packages
+import { getStorage } from 'firebase/storage';
 const firebaseConfig = {
   apiKey: 'AIzaSyB3D9715fL3frCHYAfeRDWYln-5wY54Qzo',
   authDomain: 'project-management-259e2.firebaseapp.com',
@@ -14,8 +17,10 @@ const firebaseConfig = {
   messagingSenderId: '576951246199',
   appId: '1:576951246199:web:60eb6ed713b939ca2cd572',
 };
-const app = initializeApp(firebaseConfig);
 // initialize services
+const app = initializeApp(firebaseConfig);
+const projectStorage = getStorage(app);
+
 const db = getFirestore(app); // firestore
 // collection refrence
 let colRef = collection(db, 'transactions');
@@ -23,4 +28,4 @@ const auth = getAuth(); // auth
 
 // firebase timestamps
 const timestamp = Timestamp.fromDate(new Date());
-export { db, auth, colRef, timestamp };
+export { db, auth, colRef, timestamp, projectStorage };
