@@ -1,23 +1,21 @@
 //  react imports
-import React from 'react';
 import { useState, useEffect } from 'react';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 // hooks imports
 import { useAuthContext } from './useAuthContext.js';
-
 // firebase auth imports
-import { auth, storageRef, storage } from '../firebase/config';
+import { auth, storageRef, storage, db } from '../firebase/config';
 import {
   getAuth,
   createUserWithEmailAndPassword,
   updateProfile,
 } from 'firebase/auth';
+import { setDoc, doc } from 'firebase/firestore';
 
 export default function useSignup() {
   const [error, setError] = useState(null);
   const [isPending, setIsPending] = useState(false);
   const [isCancel, setIsCancel] = useState(false);
-  // this update the to be use in the authContext.js
   const { dispatch } = useAuthContext();
 
   const signup = async (email, password, displayName, thumbnail) => {
@@ -48,6 +46,14 @@ export default function useSignup() {
         displayName: displayName,
         photoURL: imgUrl,
       });
+
+      //create a user document
+      await setDoc(doc(db, 'users', user.uid), {
+        online: true,
+        displayName,
+        photoURL: imgUrl,
+      });
+
       // dispatching the login event
       dispatch({ type: 'LOGIN', payload: user });
       setIsPending(false);
