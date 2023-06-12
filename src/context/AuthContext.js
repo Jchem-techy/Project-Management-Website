@@ -30,7 +30,7 @@ export function AuthContextProvider({ children }) {
     });
   }, []);
   return (
-    <AuthContext.Provider value={{ ...state, dispatch, testing: 'johnson' }}>
+    <AuthContext.Provider value={{ ...state, dispatch }}>
       {children}
     </AuthContext.Provider>
   );
