@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { useAuthContext } from './useAuthContext';
-import { auth } from '../firebase/config';
+import { auth, db } from '../firebase/config';
+import { doc, updateDoc } from 'firebase/firestore';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 export default function useLogin(email, password) {
   const [error, setError] = useState(null);
@@ -9,6 +10,7 @@ export default function useLogin(email, password) {
   const [isCancel, setIsCancel] = useState(false);
   // this update the to be use in the authContext.js
   const { dispatch } = useAuthContext();
+  // const { uid } = user;
   async function login(email, password) {
     setError(null);
     setIsPending(true);
@@ -19,8 +21,8 @@ export default function useLogin(email, password) {
         password
       );
       const user = userCredentials.user;
-
-      dispatch({ type: 'LOGIN', payload: user });
+      await updateDoc(doc(db, 'users', user.uid), { online: true });
+      await dispatch({ type: 'LOGIN', payload: user });
       setIsPending(false);
       if (!isCancel) {
         setError(null);

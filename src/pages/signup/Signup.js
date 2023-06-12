@@ -81,7 +81,7 @@ export default function Signup() {
       )}
       {isPending && (
         <button type='submit' className='btn' disabled>
-          Loading
+          Loading...
         </button>
       )}
       {error && <div className='error'>{error}</div>}
