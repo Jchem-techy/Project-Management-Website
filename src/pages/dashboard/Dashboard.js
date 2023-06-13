@@ -2,5 +2,5 @@
 import './Dashboard.css';
 
 export default function Dashboard() {
-  return <div></div>;
+  return <div>Dashboard</div>;
 }
