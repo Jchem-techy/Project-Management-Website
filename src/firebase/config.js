@@ -23,7 +23,7 @@ const storage = getStorage(app);
 
 const db = getFirestore(app); // firestore
 // collection refrence
-let colRef = collection(db, 'transactions');
+let colRef = collection(db, 'users');
 
 const auth = getAuth(); // auth
 
