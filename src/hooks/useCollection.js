@@ -10,18 +10,14 @@ export default function useCollection(collection) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const q = query(
-      colRef,
-      where('uid', '==', user.uid),
-      orderBy('createdAt', 'desc')
-    );
+    const q = query(colRef);
     const unsub = onSnapshot(q, (querySnapshot) => {
       let results = [];
       querySnapshot.docs.forEach((doc) => {
         results.push({ ...doc.data(), id: doc.id });
       });
       // update state
-
+      console.log(results);
       setDocuments(results);
       setError(null);
     });
