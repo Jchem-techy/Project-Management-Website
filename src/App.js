@@ -14,6 +14,7 @@ import Sidebar from './components/Sidebar';
 import OnlineUsers from './components/OnlineUsers';
 function App() {
   const { user, authIsReady } = useAuthContext();
+  console.log(2);
   return (
     <div className='App'>
       {authIsReady && (
